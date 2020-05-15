@@ -1,6 +1,8 @@
 const express = require('express'); // node server
 const mongoose = require('mongoose'); // use mongoose to create schemas
 const bodyParser = require('body-parser'); // middleware
+const cors = require('cors'); // for cross-domain requests
+
 require('dotenv').config({ path: 'variables.env' }); // mongoURL variable
 
 // mongoose declared models
@@ -33,6 +35,13 @@ mongoose
 
 // Initialize Application
 const app = express();
+
+// Configure Cors
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+}
+app.use(cors(corsOptions));
 
 // Create GraphiQL Application
 app.use(
