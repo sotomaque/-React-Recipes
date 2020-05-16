@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  padding-top: 65px;
 }
 
 nav {
@@ -23,6 +24,7 @@ li {
 
 ul {
   list-style: none;
+  padding-left: 0px;
 }
 
 input,

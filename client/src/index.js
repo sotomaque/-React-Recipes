@@ -9,8 +9,10 @@ import { useQuery } from '@apollo/react-hooks';
 import Signin from './components/Auth/Signin';
 import Signup from './components/Auth/Signup';
 import Navbar from './components/Navbar';
-
+import ReceipePage from './components/Receipe/ReceipePage';
+import { CircularProgress } from '@material-ui/core'
 import { GET_CURRENT_USER } from './queries';
+import AddRecipe from './components/Receipe/AddRecipe';
 
 const client = new ApolloClinet({
   uri: "http://localhost:4444/graphql",
@@ -40,7 +42,21 @@ const client = new ApolloClinet({
 const Root = () => {
   const { data, loading, error, refetch } = useQuery(GET_CURRENT_USER);
 
-  console.log(data)
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: 50,
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
+  if (error) return <div>Error...</div>
   return (
     <Router>
       <Navbar session={data} />
@@ -48,6 +64,9 @@ const Root = () => {
         <Route exact path='/' component={App} />
         <Route path='/signin' render={() => <Signin refetch={refetch} />} />
         <Route path='/signup' render={() => <Signup refetch={refetch} />}/>
+
+        <Route exact path='/receipes/new' component={AddRecipe} />
+        <Route path='/receipes/:receipeId' component={ReceipePage} />
         <Redirect to='/' />
       </Switch>
     </Router>

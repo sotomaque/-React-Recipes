@@ -17,13 +17,13 @@ const Signout = () => {
 
     return (
         <ApolloConsumer>
-        { client => {
-            console.log(client)
-            return (
-                <Button color="inherit" variant="outlined" onClick={() => handleSignout(client) }>Sign Out</Button>
-            )
-        }}
-           
+        { 
+            client => {
+                return (
+                    <Button color="inherit" variant="outlined" onClick={() => handleSignout(client) }>Sign Out</Button>
+                )
+            }
+        }   
         </ApolloConsumer>
     )
 }
