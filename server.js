@@ -2,7 +2,7 @@ const express = require('express'); // node server
 const mongoose = require('mongoose'); // use mongoose to create schemas
 const bodyParser = require('body-parser'); // middleware
 const cors = require('cors'); // for cross-domain requests
-
+const jwt = require('jsonwebtoken'); // jwt for token auth
 require('dotenv').config({ path: 'variables.env' }); // mongoURL variable
 
 // mongoose declared models
@@ -43,6 +43,22 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
+// set up JWT Auth
+app.use(async (request, response, next) => {
+    const token = request.headers['authorization'];
+    
+    if (token !== 'null') {
+        // verify token
+        try {
+            const currentUser = await jwt.verify(token, process.env.SECRET);
+            request.currentUser = currentUser;
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    next();
+});
+
 // Create GraphiQL Application
 app.use(
     '/graphiql', 
@@ -53,13 +69,14 @@ app.use(
 app.use(
     '/graphql',
     bodyParser.json(), 
-    graphqlExpress({
+    graphqlExpress(({ currentUser }) => ({
         schema,
         context: {
             Recipe,
-            User
+            User,
+            currentUser
         }
-    })
+    }))
 );
 
 // set default port
