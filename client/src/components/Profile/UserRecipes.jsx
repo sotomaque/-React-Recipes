@@ -1,7 +1,7 @@
 import React from 'react';
+import { Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_USER_RECIPES } from '../../queries';
-import { Typography } from '@material-ui/core';
 import RecipeGrid from '../Receipe/RecipeGrid';
 
 const UserRecipes = ({ username }) => {
@@ -9,7 +9,6 @@ const UserRecipes = ({ username }) => {
     const { data, loading, error } = useQuery(GET_USER_RECIPES, {
         variables: { username }
     });
-    
 
     if (loading) {
         return (

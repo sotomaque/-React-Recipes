@@ -78,7 +78,7 @@ const Root = () => {
         <Route path='/register' render={() => <RegistrationPage refetch={refetch} />}/>
         <Route path='/profile'  render={() => <ProfilePage session={data} />} />
 
-        <Route exact path='/new' component={AddRecipe} />
+        <Route exact path='/new' render={() => <AddRecipe session={data} />} />
         <Route path='/receipes/:receipeId' component={ReceipePage} />
 
         <Route path='/search' component={Search} />

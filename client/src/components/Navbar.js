@@ -215,24 +215,30 @@ export default function Navbar({ session }) {
             </ListItemIcon>
             <ListItemText primary={"Search"} />
           </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <FavoriteIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Favorites"} />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <ListIcon />
-            </ListItemIcon>
-            <ListItemText primary={"My Receipes"} />
-          </ListItem>
-          <ListItem button onClick={() => {history.push('/new'); setOpen(false)}}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Add a New Receipe"} />
-          </ListItem>
+          {
+            session && session.getCurrentUser && (
+              <>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FavoriteIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Favorites"} />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <ListIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"My Receipes"} />
+                </ListItem>
+                <ListItem button onClick={() => {history.push('/new'); setOpen(false)}}>
+                  <ListItemIcon>
+                    <AddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Add a New Receipe"} />
+                </ListItem>
+              </>
+            )
+          }
         </List>
         <Divider />
         { 

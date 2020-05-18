@@ -28,7 +28,6 @@ const ProfilePage = ({ session }) => {
         if (!session.getCurrentUser) {
             history.push('/')
         }
-        console.log(session)
     }, [session.getCurrentUser])
 
 

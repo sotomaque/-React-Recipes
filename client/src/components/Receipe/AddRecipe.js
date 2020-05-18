@@ -15,9 +15,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { CircularProgress } from "@material-ui/core";
 
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css"
-
 import { useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { GET_CURRENT_USER, ADD_RECIPE, GET_ALL_RECIPES } from "../../queries";
@@ -67,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddRecipe = () => {
+const AddRecipe = ({ session }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -78,9 +75,6 @@ const AddRecipe = () => {
   const { data, loading, error } = useQuery(GET_CURRENT_USER);
   const [username, setUsername] = React.useState("");
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
-
-  const [showAlert, setShowAlert] = React.useState(true);
-  const [hasShownAlert, setHasShownAlert] = React.useState(false);
 
   const [
     addRecipe,
@@ -110,14 +104,21 @@ const AddRecipe = () => {
     });
   };
 
+  // route guard 
+  React.useEffect(() => {
+    if (!session.getCurrentUser) {
+      history.push('/')
+    }
+  }, [session.getCurrentUser])
+
+  // set username effect
   React.useEffect(() => {
     if (!loading && data.getCurrentUser) {
       setUsername(data.getCurrentUser.username);
-    } else {
-      setShowAlert(true);
-    }
+    } 
   }, [data, loading]);
 
+  // button disabled effect
   React.useEffect(() => {
     if (
       name.trim() !== "" &&
@@ -131,43 +132,6 @@ const AddRecipe = () => {
       setIsButtonDisabled(true);
     }
   }, [name, category, description, instructions]);
-
-  
-  const alertPopup = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className='custom-ui'>
-            <h1 style={{display: 'flex', justifyContent: 'center'}}>This is awkward...😬🥴</h1>
-            <p>In order to subimt a recipe you must first login</p>
-            <div style={{display: 'flex', justifyContent: 'space-evenly'}}> 
-              <Button
-                variant="contained"
-                color='secondary'
-                onClick={() => {
-                  setHasShownAlert(true);
-                  onClose();
-                }}
-              >
-              Dismiss
-              </Button>
-              <Button
-                variant="contained"
-                color='primary'
-                onClick={() => {
-                  history.push('/login')
-                  onClose();
-                }}
-              >
-                Login
-              </Button>
-            </div>
-          </div>
-        );
-      }
-    });
-   
-  }
 
   if (loading || loadingMutation) {
     return (
@@ -188,9 +152,6 @@ const AddRecipe = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      {
-        showAlert && !hasShownAlert && alertPopup()
-      }
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
