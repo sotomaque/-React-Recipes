@@ -32,4 +32,9 @@ const RecipeSchema = new Schema({
     }
 });
 
+// define index as all fields
+RecipeSchema.index({
+    '$**': 'text'
+});
+
 module.exports = mongoose.model('Recipe', RecipeSchema);

@@ -19,6 +19,25 @@ exports.resolvers={
             return recipe;
         },
 
+        searchRecipes: async (root, { searchTerm }, { Recipe }) => {
+            if (searchTerm) {
+                // search
+                const searchResults = await Recipe.find({
+                    $text: { $search: searchTerm }
+                }, {
+                    score: { $meta: "textScore" }
+                }).sort({
+                  score: { $meta: "textScore" }  
+                });
+
+                return searchResults;
+            } else {
+                // return all recipes sorted by likes + created date
+                const recipes = await Recipe.find().sort({ likes: 'desc', createdDate: 'desc' });
+                return recipes;
+            }
+        },
+
         getCurrentUser: async (root, args, { currentUser, User }) => {
             if (!currentUser) return null;
 
@@ -29,6 +48,13 @@ exports.resolvers={
                 });
             
             return user;
+        },
+
+        getUserRecipes: async (root, { username }, { Recipe }) => {
+            const userRecipes = await Recipe.find({ username })
+                .sort({ createdDate: 'desc' });
+
+            return userRecipes;
         }
     },
 

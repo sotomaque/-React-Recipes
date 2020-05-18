@@ -1,18 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import ApolloClinet from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
-import Signin from './components/Auth/Signin';
-import Signup from './components/Auth/Signup';
+
+
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegistrationPage from './pages/RegistrationPage';
+import ProfilePage from './pages/ProfilePage';
+
+
+import "./assets/scss/material-kit-react.scss";
+
+
 import Navbar from './components/Navbar';
 import ReceipePage from './components/Receipe/ReceipePage';
 import { CircularProgress } from '@material-ui/core'
 import { GET_CURRENT_USER } from './queries';
 import AddRecipe from './components/Receipe/AddRecipe';
+
+import Search from './components/Receipe/Search';
 
 const client = new ApolloClinet({
   uri: "http://localhost:4444/graphql",
@@ -56,17 +65,24 @@ const Root = () => {
       </div>
     );
   }
+
   if (error) return <div>Error...</div>
+
   return (
     <Router>
       <Navbar session={data} />
       <Switch>
-        <Route exact path='/' component={App} />
-        <Route path='/signin' render={() => <Signin refetch={refetch} />} />
-        <Route path='/signup' render={() => <Signup refetch={refetch} />}/>
+        <Route exact path='/' component={HomePage} />
 
-        <Route exact path='/receipes/new' component={AddRecipe} />
+        <Route path='/login' render={() => <LoginPage refetch={refetch} />} />
+        <Route path='/register' render={() => <RegistrationPage refetch={refetch} />}/>
+        <Route path='/profile'  render={() => <ProfilePage session={data} />} />
+
+        <Route exact path='/new' component={AddRecipe} />
         <Route path='/receipes/:receipeId' component={ReceipePage} />
+
+        <Route path='/search' component={Search} />
+
         <Redirect to='/' />
       </Switch>
     </Router>
