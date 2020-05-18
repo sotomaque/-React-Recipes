@@ -5,15 +5,12 @@ import ApolloClinet from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
 
-
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import ProfilePage from './pages/ProfilePage';
 
-
 import "./assets/scss/material-kit-react.scss";
-
 
 import Navbar from './components/Navbar';
 import ReceipePage from './components/Receipe/ReceipePage';
@@ -48,6 +45,7 @@ const client = new ApolloClinet({
   }
 });
 
+
 const Root = () => {
   const { data, loading, error, refetch } = useQuery(GET_CURRENT_USER);
 
@@ -70,21 +68,21 @@ const Root = () => {
 
   return (
     <Router>
-      <Navbar session={data} />
-      <Switch>
-        <Route exact path='/' render={() => <HomePage session={data} />} />
+        <Navbar session={data} />
+        <Switch>
+          <Route exact path='/' render={() => <HomePage session={data} />} />
 
-        <Route path='/login' render={() => <LoginPage refetch={refetch} />} />
-        <Route path='/register' render={() => <RegistrationPage refetch={refetch} />}/>
-        <Route path='/profile'  render={() => <ProfilePage session={data} />} />
+          <Route path='/login' render={() => <LoginPage refetch={refetch} />} />
+          <Route path='/register' render={() => <RegistrationPage refetch={refetch} />}/>
+          <Route path='/profile'  render={() => <ProfilePage session={data} />} />
 
-        <Route exact path='/new' render={() => <AddRecipe session={data} />} />
-        <Route path='/receipes/:receipeId' component={ReceipePage} />
+          <Route exact path='/new' render={() => <AddRecipe session={data} />} />
+          <Route path='/receipes/:receipeId' component={ReceipePage} />
 
-        <Route path='/search' component={Search} />
+          <Route path='/search' component={Search} />
 
-        <Redirect to='/' />
-      </Switch>
+          <Redirect to='/' />
+        </Switch>
     </Router>
   )
 }

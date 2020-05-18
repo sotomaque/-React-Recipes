@@ -1,4 +1,6 @@
 import React from "react";
+import axios from 'axios';
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -7,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Restaurant from "@material-ui/icons/Restaurant";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -17,7 +20,12 @@ import { CircularProgress } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_CURRENT_USER, ADD_RECIPE, GET_ALL_RECIPES, GET_USER_RECIPES } from "../../queries";
+import {
+  GET_CURRENT_USER,
+  ADD_RECIPE,
+  GET_ALL_RECIPES,
+  GET_USER_RECIPES,
+} from "../../queries";
 
 import Error from "../Error";
 
@@ -62,6 +70,15 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  input: {
+    display: "none"
+  },
+  button: {
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit,
+    marginLeft: 0
+  }
 }));
 
 const AddRecipe = ({ session }) => {
@@ -74,6 +91,8 @@ const AddRecipe = ({ session }) => {
   const [instructions, setInstructions] = React.useState("");
   const { data, loading, error } = useQuery(GET_CURRENT_USER);
   const [username, setUsername] = React.useState("");
+  const [image, setImage] = React.useState("");
+
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
 
   const [
@@ -81,41 +100,59 @@ const AddRecipe = ({ session }) => {
     { loading: loadingMutation, error: errorMutation },
   ] = useMutation(ADD_RECIPE, { errorPolicy: "all" });
 
+  const handleImageUpload = async () => {
+    // create form data
+    const data = new FormData();
+    // append the image we have stored in state as a file to data
+    data.append("file", image);
+    // upload preset is what cloudinary created for us when we
+    // enabled unsigned uploading
+    data.append("upload_preset", "mibi0rzt");
+    // append cloudinary cloud name
+    data.append("cloud_name", "dfddbhcyo");
+
+    // make http request with axios
+    const res = await axios.post(
+      "https://api.cloudinary.com/v1_1/dfddbhcyo/image/upload",
+      data
+    );
+
+    return res.data.url
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const url = await handleImageUpload();
+    console.log(url)
     await addRecipe({
-      variables: {
-        name,
-        description,
-        category,
-        instructions,
-        username,
-      },
+      variables: { name, description, category, instructions, username, image: url },
       refetchQueries: [
-          { query: GET_ALL_RECIPES }, 
-          { query: GET_USER_RECIPES, variables: { username } }
-      ]
+        { query: GET_ALL_RECIPES },
+        { query: GET_USER_RECIPES, variables: { username } },
+      ],
     }).then((data) => {
-      setName('');
-      setDescription('');
-      setCategory('');
-      setInstructions('');
-      history.push('/')
+      console.log('in data ', data)
+      setName("");
+      setDescription("");
+      setCategory("");
+      setInstructions("");
+      setImage('');
+      history.push("/");
     });
   };
 
-  // route guard 
+  // route guard
   React.useEffect(() => {
     if (!session.getCurrentUser) {
-      history.push('/')
+      history.push("/");
     }
-  }, [session.getCurrentUser, history])
+  }, [session.getCurrentUser, history]);
 
   // set username effect
   React.useEffect(() => {
     if (!loading && data.getCurrentUser) {
       setUsername(data.getCurrentUser.username);
-    } 
+    }
   }, [data, loading]);
 
   // button disabled effect
@@ -125,7 +162,7 @@ const AddRecipe = ({ session }) => {
       category.trim() !== "" &&
       description.trim() !== "" &&
       instructions.trim() !== "" &&
-      username.trim() !== "" 
+      username.trim() !== ""
     ) {
       setIsButtonDisabled(false);
     } else {
@@ -148,7 +185,7 @@ const AddRecipe = ({ session }) => {
     );
   }
 
-  if (error) return <div>Error...</div>
+  if (error) return <div>Error...</div>;
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -229,6 +266,25 @@ const AddRecipe = ({ session }) => {
               onChange={(event) => setInstructions(event.target.value)}
               autoFocus
             />
+
+            {/* image input  */}
+            <input
+              accept="image/*"
+              id="image"
+              type="file"
+              className={classes.input}
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+            <label htmlFor="image">
+              <Button
+                style={{ color: image && "green" }}
+                component="span"
+                size="small"
+                className={classes.button}
+              >
+                <AddAPhotoIcon />>
+              </Button>
+            </label>
 
             <Button
               type="submit"

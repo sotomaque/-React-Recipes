@@ -8,7 +8,6 @@ import RecipeGrid from "./RecipeGrid";
 
 const Search = (props) => {
   const searchTerm = props.location.query;
-  console.log("qurey in search component", searchTerm);
 
   const { data, loading, error } = useQuery(SEARCH_RECIPES, {
     variables: { searchTerm },
@@ -38,7 +37,7 @@ const Search = (props) => {
   return (
     <div className="App">
       <div className="heading">
-        <Typography variant="h2">{searchTerm}</Typography>
+        <Typography variant="h2">{searchTerm ? searchTerm : 'All Recipes'}</Typography>
       </div>
       <RecipeGrid recipes={recipes} />
     </div>

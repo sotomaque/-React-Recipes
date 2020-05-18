@@ -12,6 +12,7 @@ export const GET_ALL_RECIPES = gql`
       createdDate
       likes
       username
+      image
     }
   }
 `;
@@ -26,6 +27,7 @@ export const GET_RECIPE = gql`
       createdDate
       likes
       username
+      image
     }
   }
 `;
@@ -41,31 +43,21 @@ export const SEARCH_RECIPES = gql`
       createdDate
       likes
       username
+      image
     }
   }
 `;
 
 /* Recipes Mutations */
 export const ADD_RECIPE = gql`
-  mutation(
-    $name: String!
-    $description: String!
-    $category: String!
-    $instructions: String!
-    $username: String!
-  ) {
-    addRecipe(
-      name: $name,
-      description: $description,
-      category: $category,
-      instructions: $instructions,
-      username: $username
-    ) {
+  mutation($name: String!, $description: String!, $category: String!, $instructions: String!, $username: String!, $image: String) {
+    addRecipe(name: $name, description: $description, category: $category, instructions: $instructions, username: $username, image: $image) {
       name
       description
       category
       instructions
       username
+      image
     }
   }
 `;
@@ -93,6 +85,8 @@ export const GET_CURRENT_USER = gql`
         createdDate
         likes
         username
+        description
+        image
       }
     }
   }
@@ -107,9 +101,21 @@ export const GET_USER_RECIPES = gql`
       createdDate
       likes
       username
+      description
+      image
     }
   }
 `;
+
+export const GET_USER_FAVORITES = gql`
+  query {
+    getCurrentUser {
+      favorites {
+        _id
+      }
+    }
+  }
+`
 
 /* User Mutations */
 export const SIGNUP_USER = gql`
@@ -123,6 +129,14 @@ export const SIGNUP_USER = gql`
 export const LIKE_RECIPE = gql`
     mutation($_id: ID!, $username: String!) {
         likeRecipe(_id: $_id, username: $username) {
+            _id
+        }
+    }
+`;
+
+export const UNLIKE_RECIPE = gql`
+    mutation($_id: ID!, $username: String!) {
+        unlikeRecipe(_id: $_id, username: $username) {
             _id
         }
     }

@@ -21,6 +21,7 @@ exports.resolvers={
 
         searchRecipes: async (root, { searchTerm }, { Recipe }) => {
             if (searchTerm) {
+                console.log(searchTerm)
                 // search
                 const searchResults = await Recipe.find({
                     $text: { $search: searchTerm }
@@ -56,16 +57,18 @@ exports.resolvers={
 
             return userRecipes;
         }
+
     },
 
     Mutation: {
-        addRecipe: async (root, { name, description, category, instructions, username }, { Recipe } ) => {
+        addRecipe: async (root, { name, description, category, instructions, username, image }, { Recipe } ) => {
             const newRecipe = await new Recipe({
                 name, 
                 description,
                 category, 
                 instructions,
-                username
+                username,
+                image
             }).save();
 
             return newRecipe;
@@ -79,6 +82,12 @@ exports.resolvers={
         likeRecipe: async (root, { _id, username }, { Recipe, User }) => {
             const recipe = await Recipe.findOneAndUpdate({ _id }, { $inc: { likes: 1 } });
             const user = await User.findOneAndUpdate({ username }, { $addToSet: { favorites: _id } });
+            return recipe;
+        },
+
+        unlikeRecipe: async (root, { _id, username }, { Recipe, User }) => {
+            const recipe = await Recipe.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
+            const user = await User.findOneAndUpdate({ username }, { $pull: { favorites: _id } });
             return recipe;
         },
 

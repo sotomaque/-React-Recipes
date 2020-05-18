@@ -21,22 +21,41 @@ const UserRecipes = ({ username }) => {
     }
 
     const userRecipes = data.getUserRecipes;
+    console.log(userRecipes)
 
     return (
         <>
-            <div
-                style={{
-                paddingTop: "50px",
-                paddingBottom: "30px",
-                display: "flex",
-                justifyContent: "center",
-                }}
-            >
-                <Typography variant="h6">My Recipes</Typography>
-            </div>
-            <div style={{ paddingBottom: "20px" }}>
-                <RecipeGrid recipes={userRecipes} username={username} />
-            </div>
+            {
+                userRecipes.length === 0  ? (
+                    <div
+                        style={{
+                        paddingTop: "50px",
+                        paddingBottom: "30px",
+                        display: "flex",
+                        justifyContent: "center",
+                        }}
+                    >
+                        <Typography variant="h6">You Don't Have Any Recipes... Yet</Typography>
+                    </div>
+                ) : (
+                    <>
+                        <div
+                            style={{
+                            paddingTop: "50px",
+                            paddingBottom: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            }}
+                        >
+                            <Typography variant="h6">My Recipes</Typography>
+                        </div>
+                        <div style={{ paddingBottom: "20px" }}>
+                            <RecipeGrid recipes={userRecipes} username={username} />
+                        </div>
+                    </>
+                )
+            }
+            
         </>
     )
 }

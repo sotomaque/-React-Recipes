@@ -84,10 +84,19 @@ const ProfilePage = ({ session }) => {
 
                         {/** FAVORITES **/}
                         {
-                            favorites ? (
-                                <UserFavorites favorites={favorites} />
+                            favorites.length !== 0 ? (
+                                <UserFavorites favorites={favorites} username={username} />
                             ) : (
-                                <div>You Don't Have Any Favorites...yet</div>
+                                <div
+                                    style={{
+                                    paddingTop: "50px",
+                                    paddingBottom: "30px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    }}
+                                >
+                                    <Typography variant="h6">You Don't Have Any Favorites... Yet</Typography>
+                                </div>
                             )
                         }
                         

@@ -1,12 +1,23 @@
 import React from "react";
 import "../App.css";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_RECIPES } from "../queries";
 import { CircularProgress, Typography } from "@material-ui/core";
 
 import RecipeGrid from '../components/Receipe/RecipeGrid';
 
+const useStyles = makeStyles((theme) => ({
+  heading: {
+    paddingTop: '4em',
+    paddingLeft: '10%',
+    display: 'flex',
+  },
+}));
+
 const HomePage = ({ session }) => {
+  const classes = useStyles();
   const { data, loading, error } = useQuery(GET_ALL_RECIPES);
 
   if (loading) {
@@ -31,8 +42,8 @@ const HomePage = ({ session }) => {
 
   return (
     <div className="App">
-      <div className='heading'>
-        <Typography variant="h2">Delicious and Quick Recipes</Typography>
+      <div className={classes.heading}>
+        <Typography gutterBottom variant="h4" component="h2">Delicious and Quick Recipes</Typography>
       </div>
 
       <RecipeGrid recipes={recipes} username={username} />

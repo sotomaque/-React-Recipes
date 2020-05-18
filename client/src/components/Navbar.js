@@ -124,9 +124,7 @@ export default function Navbar({ session }) {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-    }, 3000);
+
   };
 
   const handleDrawerClose = () => {

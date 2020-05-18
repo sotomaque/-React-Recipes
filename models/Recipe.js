@@ -29,6 +29,9 @@ const RecipeSchema = new Schema({
     },
     username: {
         type: String
+    },
+    image: {
+        type: String
     }
 });
 

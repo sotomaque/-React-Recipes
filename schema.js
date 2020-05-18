@@ -8,6 +8,7 @@ exports.typeDefs=`
         createdDate: String!
         likes: Int
         username: String
+        image: String
     }
 
     type User {
@@ -32,19 +33,10 @@ exports.typeDefs=`
     }
 
     type Mutation {
-        addRecipe(
-            name: String!, 
-            description: String!,
-            category: String!,
-            instructions: String!,
-            username: String
-        ): Recipe
-
+        addRecipe(name: String!, description: String!, category: String!, instructions: String!, username: String, image: String): Recipe
         deleteUserRecipe(_id: ID!): Recipe
-        likeRecipe(
-            _id: ID!,
-            username: String!,
-        ): Recipe
+        likeRecipe(_id: ID!, username: String!): Recipe
+        unlikeRecipe(_id: ID!, username: String!): Recipe
         signInUser(username: String!, password: String!): Token
         signUpUser(username: String!, email: String!, password: String!): Token
     }
