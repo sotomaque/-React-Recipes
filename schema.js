@@ -21,12 +21,9 @@ exports.typeDefs=`
 
     type Query {
         getAllRecipes: [Recipe]
-
         getCurrentUser: User
         getUserRecipes(username: String!): [Recipe]
-
         getRecipe(_id: ID!): Recipe
-
         searchRecipes(searchTerm: String): [Recipe]
     }
 
@@ -43,8 +40,12 @@ exports.typeDefs=`
             username: String
         ): Recipe
 
+        deleteUserRecipe(_id: ID!): Recipe
+        likeRecipe(
+            _id: ID!,
+            username: String!,
+        ): Recipe
         signInUser(username: String!, password: String!): Token
-
         signUpUser(username: String!, email: String!, password: String!): Token
     }
 `

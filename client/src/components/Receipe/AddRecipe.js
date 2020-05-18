@@ -17,7 +17,7 @@ import { CircularProgress } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_CURRENT_USER, ADD_RECIPE, GET_ALL_RECIPES } from "../../queries";
+import { GET_CURRENT_USER, ADD_RECIPE, GET_ALL_RECIPES, GET_USER_RECIPES } from "../../queries";
 
 import Error from "../Error";
 
@@ -92,10 +92,10 @@ const AddRecipe = ({ session }) => {
         username,
       },
       refetchQueries: [
-          { query: GET_ALL_RECIPES }
+          { query: GET_ALL_RECIPES }, 
+          { query: GET_USER_RECIPES, variables: { username } }
       ]
     }).then((data) => {
-      console.log("recipe added: ", data);
       setName('');
       setDescription('');
       setCategory('');
@@ -109,7 +109,7 @@ const AddRecipe = ({ session }) => {
     if (!session.getCurrentUser) {
       history.push('/')
     }
-  }, [session.getCurrentUser])
+  }, [session.getCurrentUser, history])
 
   // set username effect
   React.useEffect(() => {
@@ -131,7 +131,7 @@ const AddRecipe = ({ session }) => {
     } else {
       setIsButtonDisabled(true);
     }
-  }, [name, category, description, instructions]);
+  }, [name, category, description, instructions, username]);
 
   if (loading || loadingMutation) {
     return (

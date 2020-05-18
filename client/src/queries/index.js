@@ -43,7 +43,7 @@ export const SEARCH_RECIPES = gql`
       username
     }
   }
-`
+`;
 
 /* Recipes Mutations */
 export const ADD_RECIPE = gql`
@@ -69,6 +69,15 @@ export const ADD_RECIPE = gql`
     }
   }
 `;
+
+export const DELETE_USER_RECIPE = gql`
+  mutation($_id: ID!) {
+    deleteUserRecipe(_id: $_id) {
+      _id
+    }
+  }
+`;
+
 
 /* User Queries */
 export const GET_CURRENT_USER = gql`
@@ -100,7 +109,7 @@ export const GET_USER_RECIPES = gql`
       username
     }
   }
-`
+`;
 
 /* User Mutations */
 export const SIGNUP_USER = gql`
@@ -109,6 +118,14 @@ export const SIGNUP_USER = gql`
       token
     }
   }
+`;
+
+export const LIKE_RECIPE = gql`
+    mutation($_id: ID!, $username: String!) {
+        likeRecipe(_id: $_id, username: $username) {
+            _id
+        }
+    }
 `;
 
 export const SIGNIN_USER = gql`

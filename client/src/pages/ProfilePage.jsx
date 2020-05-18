@@ -83,7 +83,14 @@ const ProfilePage = ({ session }) => {
                         <UserRecipes username={username} />
 
                         {/** FAVORITES **/}
-                        <UserFavorites favorites={favorites} />
+                        {
+                            favorites ? (
+                                <UserFavorites favorites={favorites} />
+                            ) : (
+                                <div>You Don't Have Any Favorites...yet</div>
+                            )
+                        }
+                        
                     </div>
                 </div>
                 </div>

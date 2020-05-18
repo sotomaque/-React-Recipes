@@ -72,7 +72,7 @@ const Root = () => {
     <Router>
       <Navbar session={data} />
       <Switch>
-        <Route exact path='/' component={HomePage} />
+        <Route exact path='/' render={() => <HomePage session={data} />} />
 
         <Route path='/login' render={() => <LoginPage refetch={refetch} />} />
         <Route path='/register' render={() => <RegistrationPage refetch={refetch} />}/>

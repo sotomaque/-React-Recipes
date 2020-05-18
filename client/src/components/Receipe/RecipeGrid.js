@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 
 import ReceipeItem from './ReceipeItem';
 
-const RecipeGrid = ({ recipes }) => {
+const RecipeGrid = ({ recipes, username }) => {
 
     if (recipes) {
         return (
@@ -17,7 +17,7 @@ const RecipeGrid = ({ recipes }) => {
             >
                 {recipes.map((receipe, index) => (
                     <Grid item key={receipe._id} xs={12} md={6} lg={3}>
-                    <ReceipeItem receipe={receipe} />
+                        <ReceipeItem receipe={receipe} username={username} />
                     </Grid>
                 ))}
             </Grid>

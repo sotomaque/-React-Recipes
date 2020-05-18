@@ -35,7 +35,7 @@ const UserRecipes = ({ username }) => {
                 <Typography variant="h6">My Recipes</Typography>
             </div>
             <div style={{ paddingBottom: "20px" }}>
-                <RecipeGrid recipes={userRecipes} />
+                <RecipeGrid recipes={userRecipes} username={username} />
             </div>
         </>
     )

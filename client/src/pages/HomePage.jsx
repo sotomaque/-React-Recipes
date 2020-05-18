@@ -6,7 +6,7 @@ import { CircularProgress, Typography } from "@material-ui/core";
 
 import RecipeGrid from '../components/Receipe/RecipeGrid';
 
-const HomePage = () => {
+const HomePage = ({ session }) => {
   const { data, loading, error } = useQuery(GET_ALL_RECIPES);
 
   if (loading) {
@@ -27,13 +27,15 @@ const HomePage = () => {
 
   const recipes = data.getAllRecipes;
 
+  const username = session?.getCurrentUser?.username;
+
   return (
     <div className="App">
       <div className='heading'>
         <Typography variant="h2">Delicious and Quick Recipes</Typography>
       </div>
 
-      <RecipeGrid  recipes={recipes} />
+      <RecipeGrid recipes={recipes} username={username} />
       
     </div>
   );
