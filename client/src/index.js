@@ -35,8 +35,7 @@ const client = new ApolloClinet({
   },
   onError: ({ networkError }) => {
     if (networkError) {
-      console.log('Network Error')
-      console.log(networkError)
+      console.log('Network Error', networkError)
 
       if (networkError.statusCode === 401) {
         localStorage.removeItem('token');

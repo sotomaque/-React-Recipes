@@ -76,8 +76,6 @@ const RegistrationPage = (props) => {
           variables: { username, email, password }
       })
         .then( async ({ data }) => {
-            console.log(data);
-            console.log(data);
             localStorage.setItem('token', data.signUpUser.token);
             await props.refetch();
             history.push('/');

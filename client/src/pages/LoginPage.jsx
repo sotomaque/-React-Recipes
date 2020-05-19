@@ -76,7 +76,6 @@ const LoginPage = (props) => {
         variables: { username, password }
     })
       .then( async ({ data }) => {
-          console.log(data);
           localStorage.setItem('token', data.signInUser.token);
           await props.refetch();
           history.push('/')

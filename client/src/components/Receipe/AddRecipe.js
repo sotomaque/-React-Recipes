@@ -123,7 +123,6 @@ const AddRecipe = ({ session }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const url = await handleImageUpload();
-    console.log(url)
     await addRecipe({
       variables: { name, description, category, instructions, username, image: url },
       refetchQueries: [
@@ -131,7 +130,6 @@ const AddRecipe = ({ session }) => {
         { query: GET_USER_RECIPES, variables: { username } },
       ],
     }).then((data) => {
-      console.log('in data ', data)
       setName("");
       setDescription("");
       setCategory("");
