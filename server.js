@@ -5,7 +5,7 @@ const cors = require('cors'); // for cross-domain requests
 const jwt = require('jsonwebtoken'); // jwt for token auth
 require('dotenv').config({ path: 'variables.env' }); // mongoURL variable
 
-const path = requre('path'); // for sending down a file in production mode
+const path = require('path'); // for sending down a file in production mode
 
 // mongoose declared models
 const Recipe = require('./models/Recipe'); 
@@ -86,7 +86,8 @@ if (process.env.NODE_ENV === 'production') {
 
     // add middleware
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'client', 'build',
+        'index.html'));
     })
 }
 
