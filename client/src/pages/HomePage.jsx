@@ -46,7 +46,9 @@ const HomePage = ({ session }) => {
         <Typography gutterBottom variant="h4" component="h2">Delicious and Quick Recipes</Typography>
       </div>
 
-      <RecipeGrid recipes={recipes} username={username} />
+      <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
+        <RecipeGrid recipes={recipes} username={username} />
+      </div>
       
     </div>
   );

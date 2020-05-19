@@ -1,10 +1,20 @@
 import React from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+
 import { Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_USER_RECIPES } from '../../queries';
 import RecipeGrid from '../Receipe/RecipeGrid';
 
+const useStyles = makeStyles((theme) => ({
+    heading: {
+      paddingTop: '4em',
+    },
+}));
+
 const UserRecipes = ({ username }) => {
+
+    const classes = useStyles();
 
     const { data, loading, error } = useQuery(GET_USER_RECIPES, {
         variables: { username }
@@ -21,33 +31,18 @@ const UserRecipes = ({ username }) => {
     }
 
     const userRecipes = data.getUserRecipes;
-    console.log(userRecipes)
 
     return (
         <>
             {
                 userRecipes.length === 0  ? (
-                    <div
-                        style={{
-                        paddingTop: "50px",
-                        paddingBottom: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        }}
-                    >
-                        <Typography variant="h6">You Don't Have Any Recipes... Yet</Typography>
+                    <div className={classes.heading}>
+                        <Typography gutterBottom variant="h4" component="h2">You Don't Have Any Recipes... Yet</Typography>
                     </div>
                 ) : (
                     <>
-                        <div
-                            style={{
-                            paddingTop: "50px",
-                            paddingBottom: "30px",
-                            display: "flex",
-                            justifyContent: "center",
-                            }}
-                        >
-                            <Typography variant="h6">My Recipes</Typography>
+                        <div className={classes.heading}>
+                            <Typography gutterBottom variant="h4" component="h2">My Recipes</Typography>
                         </div>
                         <div style={{ paddingBottom: "20px" }}>
                             <RecipeGrid recipes={userRecipes} username={username} />

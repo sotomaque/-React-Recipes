@@ -1,19 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+
 import RecipeGrid from '../Receipe/RecipeGrid'
 import { Typography } from '@material-ui/core'
 
+const useStyles = makeStyles((theme) => ({
+    heading: {
+      paddingTop: '4em',
+    },
+}));
+
 const UserFavorites = ({ favorites, username }) => {
+    const classes = useStyles();
+
     return (
         <>
-            <div
-                style={{
-                paddingTop: "50px",
-                paddingBottom: "30px",
-                display: "flex",
-                justifyContent: "center",
-                }}
-            >
-                <Typography variant="h6">Favorties</Typography>
+            <div className={classes.heading}>
+                <Typography gutterBottom variant="h4" component="h2">My Favorites</Typography>
             </div>
             <div style={{ paddingBottom: "20px" }}>
                 <RecipeGrid recipes={favorites} username={username} />

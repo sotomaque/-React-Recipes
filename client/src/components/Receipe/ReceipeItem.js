@@ -36,12 +36,11 @@ const RecipeItem = ({ receipe, username, favorites }) => {
   const [prevLiked, setPrevLiked] = React.useState(false);
 
   const handleClick = () => {
-    history.push(`/receipes/${receipe._id}`);
+    history.push(`/recipes/${receipe._id}`);
   };
 
   const isUserReceipe = receipe.username === username;
   const likes = receipe.likes;
-  const fomattedDate = moment(receipe.createdDate).format('MMMM Do YYYY');
 
   const handleDelete = async (_id) => {
     await deleteUserRecipe({
@@ -107,7 +106,7 @@ const RecipeItem = ({ receipe, username, favorites }) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => handleClick()}>
         <CardMedia
           component="img"
           alt="Recipe Image"
@@ -130,7 +129,6 @@ const RecipeItem = ({ receipe, username, favorites }) => {
             <FavoriteIcon />
           </Badge>
         </IconButton>
-
         <Chip label={`${receipe.category}`} />
         {
           isUserReceipe && (
@@ -141,8 +139,6 @@ const RecipeItem = ({ receipe, username, favorites }) => {
         }
       </CardActions>
     </Card>
-
-
   );
 };
 

@@ -9,11 +9,11 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import ProfilePage from './pages/ProfilePage';
+import RecipePage from './pages/RecipePage';
 
 import "./assets/scss/material-kit-react.scss";
 
 import Navbar from './components/Navbar';
-import ReceipePage from './components/Receipe/ReceipePage';
 import { CircularProgress } from '@material-ui/core'
 import { GET_CURRENT_USER } from './queries';
 import AddRecipe from './components/Receipe/AddRecipe';
@@ -77,7 +77,7 @@ const Root = () => {
           <Route path='/profile'  render={() => <ProfilePage session={data} />} />
 
           <Route exact path='/new' render={() => <AddRecipe session={data} />} />
-          <Route path='/receipes/:receipeId' component={ReceipePage} />
+          <Route path='/recipes/:recipeId' component={RecipePage} />
 
           <Route path='/search' component={Search} />
 

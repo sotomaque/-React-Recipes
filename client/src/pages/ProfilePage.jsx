@@ -55,22 +55,24 @@ const ProfilePage = ({ session }) => {
                         {/** PROFILE PIC + USERNAME **/}
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={6}>
-                            <div className={classes.profile}>
-                                <div className={classes.avatarContainer}>
-                                <Avatar
-                                    aria-label="Profile Picture"
-                                    className={classes.avatar}
-                                >
-                                    {session.getCurrentUser.username.substring(0, 1)}
-                                </Avatar>
+                                <div className={classes.profile}>
+                                    <div className={classes.avatarContainer}>
+                                        <Avatar
+                                            aria-label="Profile Picture"
+                                            className={classes.avatar}
+                                        >
+                                            {session.getCurrentUser.username.substring(0, 1)}
+                                        </Avatar>
+                                    </div>
+                                    <div className={classes.name}>
+                                        <Typography variant="h4">
+                                            {session.getCurrentUser.username}
+                                        </Typography>
+                                        <Typography variant="h6">
+                                            CHEF
+                                        </Typography>
+                                    </div>
                                 </div>
-                                <div className={classes.name}>
-                                <Typography variant="h4">
-                                    {session.getCurrentUser.username}
-                                </Typography>
-                                <Typography variant="h6">CHEF</Typography>
-                                </div>
-                            </div>
                             </GridItem>
                         </GridContainer>
 

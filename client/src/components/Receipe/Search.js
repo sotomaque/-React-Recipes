@@ -1,4 +1,6 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { useQuery } from "@apollo/react-hooks";
 import { CircularProgress, Typography } from "@material-ui/core";
 import { SEARCH_RECIPES } from "../../queries";
@@ -6,9 +8,18 @@ import { SEARCH_RECIPES } from "../../queries";
 
 import RecipeGrid from "./RecipeGrid";
 
-const Search = (props) => {
-  const searchTerm = props.location.query;
+const useStyles = makeStyles((theme) => ({
+  heading: {
+    paddingTop: '4em',
+    paddingLeft: '10%',
+    display: 'flex',
+  },
+}));
 
+const Search = (props) => {
+  const classes = useStyles();
+
+  const searchTerm = props.location.query;
   const { data, loading, error } = useQuery(SEARCH_RECIPES, {
     variables: { searchTerm },
   });
@@ -36,8 +47,8 @@ const Search = (props) => {
 
   return (
     <div className="App">
-      <div className="heading">
-        <Typography variant="h2">{searchTerm ? searchTerm : 'All Recipes'}</Typography>
+      <div className={classes.heading}>
+        <Typography gutterBottom variant="h4" component="h2">{searchTerm ? searchTerm : 'All Recipes'}</Typography>
       </div>
       <RecipeGrid recipes={recipes} />
     </div>
