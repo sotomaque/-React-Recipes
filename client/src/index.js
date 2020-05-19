@@ -21,7 +21,7 @@ import AddRecipe from './components/Receipe/AddRecipe';
 import Search from './components/Receipe/Search';
 
 const client = new ApolloClinet({
-  uri: "http://localhost:4444/graphql",
+  uri: "https://recipe-react-graphql-app.herokuapp.com/graphql",
   fetchOptions: {
     credentials: 'include'
   },

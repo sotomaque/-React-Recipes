@@ -5,6 +5,8 @@ const cors = require('cors'); // for cross-domain requests
 const jwt = require('jsonwebtoken'); // jwt for token auth
 require('dotenv').config({ path: 'variables.env' }); // mongoURL variable
 
+const path = requre('path'); // for sending down a file in production mode
+
 // mongoose declared models
 const Recipe = require('./models/Recipe'); 
 const User = require('./models/User');
@@ -60,10 +62,10 @@ app.use(async (request, response, next) => {
 });
 
 // Create GraphiQL Application
-app.use(
-    '/graphiql', 
-    graphiqlExpress({ endpointURL: '/graphql'})
-);
+// app.use(
+//     '/graphiql', 
+//     graphiqlExpress({ endpointURL: '/graphql'})
+// );
 
 // Connect mongoose schemas with GraphQL
 app.use(
@@ -78,6 +80,15 @@ app.use(
         }
     }))
 );
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+
+    // add middleware
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
 
 // set default port
 const PORT = process.env.PORT || 4444;
