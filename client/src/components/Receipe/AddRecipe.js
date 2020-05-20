@@ -107,7 +107,7 @@ const AddRecipe = ({ session }) => {
     data.append("file", image);
     // upload preset is what cloudinary created for us when we
     // enabled unsigned uploading
-    data.append("upload_preset", "mibi0rzt");
+    data.append("upload_preset", "Recipe App");
     // append cloudinary cloud name
     data.append("cloud_name", "dfddbhcyo");
 
